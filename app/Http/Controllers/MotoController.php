@@ -22,6 +22,14 @@ class MotoController extends Controller
                 'modelo' => $request->modelo,
             ]
         );
+        
+                // Verificar si el usuario ya existe
+                if (User::where('email', $request->placa)->exists()) {
+                    return response()->json([
+                        'message' => 'El usuario ya está registrado con este correo'
+                    ], 409); // Código HTTP 409: Conflicto
+                }
+            
 
         return response()->json(['message' => 'Moto guardada correctamente', 'moto' => $moto]);
     }
